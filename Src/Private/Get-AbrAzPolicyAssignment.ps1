@@ -29,19 +29,19 @@ function Get-AbrAzPolicyAssignment {
                 $AzPolicyAssignmentInfo = @()
                 foreach ($AzPolicyAssignment in $AzPolicyAssignments) {
                     $InObj = [Ordered]@{
-                        'Name' = $AzPolicyAssignment.Properties.DisplayName
-                        'Description' = Switch ($AzPolicyAssignment.Properties.Description) {
+                        'Name' = $AzPolicyAssignment.DisplayName
+                        'Description' = Switch ($AzPolicyAssignment.Description) {
                             $null { '--' }
-                            default { $AzPolicyAssignment.Properties.Description }
+                            default { $AzPolicyAssignment.Description }
                         }
-                        'Scope' = ($AzPolicyAssignment.Properties.Scope).Split('/')[-1]
+                        'Scope' = ($AzPolicyAssignment.Scope).Split('/')[-1]
                         'Location' = Switch ($AzPolicyAssignment.Location) {
                             $null { '--' }
                             default {$AzLocationLookup."$($AzPolicyAssignment.Location)"}
                         }
-                        'Excluded Scopes' = Switch ($AzPolicyAssignment.Properties.NotScopes) {
+                        'Excluded Scopes' = Switch ($AzPolicyAssignment.NotScopes) {
                             $null { '--' }
-                            default { ($AzPolicyAssignment.Properties.NotScopes).Split('/')[-1] }
+                            default { ($AzPolicyAssignment.NotScopes).Split('/')[-1] }
                         }
                     }
                     $AzPolicyAssignmentInfo += [PSCustomObject]$InObj
